@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: twitter_clone
+    ports:
+      - "5435:5432"
+  test_db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: twitter_clone_test
+  redis:
+    image: redis:5.0
+    ports:
+      - "6479:6379"
+  web:
+    build: ./docker_dev
+    command: ./scripts/entrypoint.dev.sh
+    volumes:
+      - "kvytestmount:/code"
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - test_db
+      - redis
+
+volumes:
+  kvytestmount:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: ":/System/Volumes/Data/$PWD"
