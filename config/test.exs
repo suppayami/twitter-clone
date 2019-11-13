@@ -16,3 +16,8 @@ config :kvy, KvyWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+# Configure argon2 for testing
+config :argon2_elixir,
+  t_cost: 1,
+  m_cost: 8

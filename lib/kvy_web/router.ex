@@ -7,5 +7,8 @@ defmodule KvyWeb.Router do
 
   scope "/api", KvyWeb do
     pipe_through :api
+
+    resources "/user/", UserController, only: [:index, :create]
+    resources "/session/", SessionController, only: [:index, :create, :delete]
   end
 end
