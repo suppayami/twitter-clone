@@ -9,6 +9,6 @@ defmodule KvyWeb.Router do
     pipe_through :api
 
     resources "/user/", UserController, only: [:index, :create]
-    resources "/session/", SessionController, only: [:index, :create, :delete]
+    resources "/session/", SessionController, only: [:show, :create, :delete], singleton: true
   end
 end

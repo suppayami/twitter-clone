@@ -16,6 +16,10 @@ defmodule Kvy.Accounts.UserRepo do
     |> Repo.get_one()
   end
 
+  def get_user(id) do
+    Repo.get_by_id(User, id)
+  end
+
   def list_users() do
     Repo.all(User)
   end

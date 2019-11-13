@@ -9,7 +9,7 @@ defmodule Kvy.Accounts do
   """
   def authenticate(%{username: username, password: password}) do
     with {:ok, user} <- UserRepo.get_user_by_username(username),
-         {:ok} <- PasswordHash.verify(password, user.password),
+         {:ok} <- PasswordHash.verify(password, user.password_hash),
          {:ok, token, _} <- Jwt.generate_user_token(user.id) do
       {:ok, %{token: token}}
     end

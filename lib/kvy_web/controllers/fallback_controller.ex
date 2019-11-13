@@ -23,4 +23,11 @@ defmodule KvyWeb.FallbackController do
     |> put_view(ErrorView)
     |> render("404.json")
   end
+
+  def call(conn, {:error, :unauthorized}) do
+    conn
+    |> put_status(:unauthorized)
+    |> put_view(ErrorView)
+    |> render("401.json")
+  end
 end

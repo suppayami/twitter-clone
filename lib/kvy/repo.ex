@@ -17,4 +17,19 @@ defmodule Kvy.Repo do
         {:ok, result}
     end
   end
+
+  @doc """
+  Returns a record from queryable by id.
+
+  Returns a tuple :ok|error
+  """
+  def get_by_id(queryable, id) do
+    case get(queryable, id) do
+      nil ->
+        {:error, :not_found}
+
+      result ->
+        {:ok, result}
+    end
+  end
 end

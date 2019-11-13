@@ -13,7 +13,7 @@ defmodule Kvy.Utils.PasswordHash do
   Verify a password against hash.
   """
   @spec verify(String.t(), String.t()) :: {:ok} | {:error, Atom.t()}
-  def verify(_, nil), do: {:error, :no_hash}
+  def verify(_, nil), do: {:error, :unauthorized}
 
   def verify(password, hash) do
     case Argon2.verify_pass(password, hash) do
@@ -21,7 +21,7 @@ defmodule Kvy.Utils.PasswordHash do
         {:ok}
 
       false ->
-        {:error, :verify_hash_failed}
+        {:error, :unauthorized}
     end
   end
 end
