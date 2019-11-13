@@ -14,7 +14,9 @@ defmodule KvyWeb.SessionController do
 
   def create(conn, %{"user" => user}) do
     with {:ok, data} <- Accounts.authenticate(Transformer.map_keys_to_atom(user)) do
-      render(conn, "create.json", data)
+      conn
+      |> put_status(:created)
+      |> render("create.json", data)
     end
   end
 

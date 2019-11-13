@@ -12,6 +12,12 @@ defmodule Kvy.Accounts do
          {:ok} <- PasswordHash.verify(password, user.password_hash),
          {:ok, token, _} <- Jwt.generate_user_token(user.id) do
       {:ok, %{token: token}}
+    else
+      {:error, :not_found} ->
+        {:error, :unauthorized}
+
+      error ->
+        error
     end
   end
 

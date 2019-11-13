@@ -27,7 +27,8 @@ defmodule KvyWeb.AuthPlug do
   defp unauthorized(conn) do
     conn
     |> put_status(:unauthorized)
-    |> Phoenix.Controller.render(KvyWeb.ErrorView, "401.json")
+    |> Phoenix.Controller.put_view(KvyWeb.ErrorView)
+    |> Phoenix.Controller.render("401.json")
     |> halt()
   end
 end

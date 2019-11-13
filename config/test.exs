@@ -4,8 +4,8 @@ use Mix.Config
 config :kvy, Kvy.Repo,
   username: "postgres",
   password: "postgres",
-  database: "kvy_test",
-  hostname: "twitter_clone_test",
+  database: "twitter_clone_test",
+  hostname: "test_db",
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
