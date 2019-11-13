@@ -21,6 +21,7 @@ defmodule Kvy.Accounts.User do
     |> validate_required([:username, :password])
     |> validate_length(:username, min: 6)
     |> validate_length(:password, min: 8)
+    |> unique_constraint(:username)
     |> put_password_hash()
   end
 

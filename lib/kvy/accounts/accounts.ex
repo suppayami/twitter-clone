@@ -1,6 +1,6 @@
 defmodule Kvy.Accounts do
   alias Kvy.Accounts.UserRepo
-  alias Kvy.Utils.PasswordHash
+  alias Kvy.Utils.{PasswordHash, Jwt}
 
   @doc """
   Authenticate using credentials.
@@ -9,8 +9,9 @@ defmodule Kvy.Accounts do
   """
   def authenticate(%{username: username, password: password}) do
     with {:ok, user} <- UserRepo.get_user_by_username(username),
-         {:ok} <- PasswordHash.verify(password, user.password) do
-      {:ok}
+         {:ok} <- PasswordHash.verify(password, user.password),
+         {:ok, token, _} <- Jwt.generate_user_token(user.id) do
+      {:ok, %{token: token}}
     end
   end
 

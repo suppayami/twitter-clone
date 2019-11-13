@@ -24,6 +24,8 @@ defmodule KvyWeb do
       import Plug.Conn
       import KvyWeb.Gettext
       alias KvyWeb.Router.Helpers, as: Routes
+
+      action_fallback KvyWeb.FallbackController
     end
   end
 
