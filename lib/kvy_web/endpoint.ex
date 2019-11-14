@@ -40,5 +40,9 @@ defmodule KvyWeb.Endpoint do
     key: "_kvy_key",
     signing_salt: "EhhiX7cg"
 
+  plug CORSPlug,
+    origin: ["*"],
+    credentials: true
+
   plug KvyWeb.Router
 end
