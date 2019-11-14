@@ -4,8 +4,8 @@ defmodule KvyWeb.SessionControllerTest do
   alias Kvy.Accounts
   alias Kvy.Accounts.UserRepo
 
-  @valid_attrs %{username: "testuser", password: "testuser"}
-  @invalid_attrs %{username: "baduser", password: "badpassword"}
+  @valid_attrs %{username: "testuser", password: "testuser", otp: ""}
+  @invalid_attrs %{username: "baduser", password: "badpassword", otp: ""}
 
   def user_fixture(attrs \\ %{}) do
     {:ok, user} =

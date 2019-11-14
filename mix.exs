@@ -42,7 +42,8 @@ defmodule Kvy.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:argon2_elixir, "~> 2.1"},
-      {:joken, "~> 2.0"}
+      {:joken, "~> 2.0"},
+      {:pot, "~>0.10.1"}
     ]
   end
 

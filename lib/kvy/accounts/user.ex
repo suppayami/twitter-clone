@@ -7,6 +7,7 @@ defmodule Kvy.Accounts.User do
   schema "users" do
     field :username, :string
     field :password_hash, :string, source: :password
+    field :otp_key, :string
 
     # virtual
     field :password, :string, virtual: true
@@ -23,6 +24,14 @@ defmodule Kvy.Accounts.User do
     |> validate_length(:password, min: 8)
     |> unique_constraint(:username)
     |> put_password_hash()
+  end
+
+  def otp_enabled?(%__MODULE__{otp_key: nil}) do
+    false
+  end
+
+  def otp_enabled?(%__MODULE__{otp_key: _otp_key}) do
+    true
   end
 
   # hashing password before putting into database

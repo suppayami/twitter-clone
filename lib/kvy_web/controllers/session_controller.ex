@@ -13,7 +13,11 @@ defmodule KvyWeb.SessionController do
   end
 
   def create(conn, %{"user" => user}) do
-    with {:ok, data} <- Accounts.authenticate(Transformer.map_keys_to_atom(user)) do
+    credentials =
+      Transformer.map_keys_to_atom(user)
+      |> Map.put_new(:otp, "")
+
+    with {:ok, data} <- Accounts.authenticate(credentials) do
       conn
       |> put_status(:created)
       |> render("create.json", data)
@@ -24,5 +28,11 @@ defmodule KvyWeb.SessionController do
     # TODO: Blacklist token
     current_user = AuthPlug.get_current_user(conn)
     render(conn, "show.json", %{user: current_user})
+  end
+
+  def otp(conn, %{"id" => id}) do
+    with {:ok, otp} <- Accounts.generate_otp(id) do
+      render(conn, "otp.json", %{otp: otp})
+    end
   end
 end

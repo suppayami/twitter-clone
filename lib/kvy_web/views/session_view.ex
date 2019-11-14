@@ -10,4 +10,8 @@ defmodule KvyWeb.SessionView do
   def render("create.json", %{token: token}) do
     %{data: %{token: token}}
   end
+
+  def render("otp.json", %{otp: otp}) do
+    %{data: %{otp: otp}}
+  end
 end
