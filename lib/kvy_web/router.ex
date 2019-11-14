@@ -11,5 +11,6 @@ defmodule KvyWeb.Router do
     resources "/user/", UserController, only: [:index, :create]
     resources "/session/", SessionController, only: [:show, :create, :delete], singleton: true
     get "/session/otp/:id", SessionController, :otp
+    resources "/tweet/", TweetController, only: [:index, :create]
   end
 end

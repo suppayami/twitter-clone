@@ -24,11 +24,13 @@ defmodule Kvy.Repo.Migrations.CreateTweets do
     create table(:like_queue) do
       add :user_id, references(:users)
       add :tweet_id, references(:tweets)
+      add :amount, :integer, default: 1
     end
 
     create table(:retweet_queue) do
       add :user_id, references(:users)
       add :tweet_id, references(:tweets)
+      add :amount, :integer, default: 1
     end
   end
 end
