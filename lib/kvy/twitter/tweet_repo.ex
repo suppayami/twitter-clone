@@ -13,9 +13,7 @@ defmodule Kvy.Twitter.TweetRepo do
     Repo.get_by_id(Tweet, id)
   end
 
-  def list_tweets(order_by \\ [desc: :id]) do
-    Tweet
-    |> order_by(^order_by)
-    |> Repo.all()
+  def list_tweets() do
+    Repo.all(Tweet)
   end
 end

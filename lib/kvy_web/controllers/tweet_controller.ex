@@ -7,7 +7,7 @@ defmodule KvyWeb.TweetController do
   plug AuthPlug when action in [:create]
 
   def index(conn, %{"order_by" => "like_count"}) do
-    tweets = TweetRepo.list_tweets(desc: :like_count)
+    tweets = TweetRepo.list_tweets()
     render(conn, "index.json", %{tweets: tweets})
   end
 
