@@ -9,6 +9,10 @@ defmodule KvyWeb.UserView do
     %{data: render_one(user, __MODULE__, "user.json")}
   end
 
+  def render("user.json", %{user: %Ecto.Association.NotLoaded{}}) do
+    nil
+  end
+
   def render("user.json", %{user: user}) do
     %{id: user.id, username: user.username}
   end

@@ -3,7 +3,7 @@ defmodule Kvy.TwitterTest do
 
   describe "twitter" do
     alias Kvy.Twitter
-    alias Kvy.Twitter.{Like, Retweet, TweetRepo}
+    alias Kvy.Twitter.{Like, Tweet, TweetRepo}
     alias Kvy.Accounts.UserRepo
 
     @valid_attrs %{text: "good text"}
@@ -63,8 +63,9 @@ defmodule Kvy.TwitterTest do
     test "retweet/2 returns a new retweet on a tweet" do
       user = user_fixture()
       tweets = tweet_fixtures(user)
+      tweet = Enum.at(tweets, 0)
 
-      assert {:ok, %Retweet{}} = Twitter.retweet(user, Enum.at(tweets, 0))
+      assert {:ok, %Tweet{}} = Twitter.retweet(user, tweet)
     end
 
     test "unretweet/2 returns bad request if user didn't retweet tweet" do
@@ -77,8 +78,9 @@ defmodule Kvy.TwitterTest do
     test "unretweet/2 unlike an already-retweeted tweet" do
       user = user_fixture()
       tweets = tweet_fixtures(user)
+      tweet = Enum.at(tweets, 1)
 
-      assert {:ok, %Retweet{}} = Twitter.unretweet(user, Enum.at(tweets, 1))
+      assert {:ok, %Tweet{}} = Twitter.unretweet(user, tweet)
     end
   end
 end

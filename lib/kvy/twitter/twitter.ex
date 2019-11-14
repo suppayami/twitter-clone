@@ -1,6 +1,7 @@
 defmodule Kvy.Twitter do
   alias Kvy.Twitter.LikeRepo
   alias Kvy.Twitter.RetweetRepo
+  alias Kvy.Twitter.TweetRepo
 
   def like(user, tweet) do
     with {:ok} <- likeable?(user, tweet) do
@@ -17,12 +18,14 @@ defmodule Kvy.Twitter do
   def retweet(user, tweet) do
     with {:ok} <- retweetable?(user, tweet) do
       RetweetRepo.retweet(user, tweet)
+      TweetRepo.create_retweet(user, tweet)
     end
   end
 
   def unretweet(user, tweet) do
     with {:ok} <- unretweetable?(user, tweet) do
       RetweetRepo.unretweet(user, tweet)
+      TweetRepo.delete_retweet(user, tweet)
     end
   end
 

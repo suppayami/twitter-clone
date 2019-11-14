@@ -18,12 +18,23 @@ defmodule Kvy.Twitter.Tweet do
     has_many :likes, Like
     has_many :retweets, Retweet
 
+    # retweets
+    belongs_to :original_tweet, __MODULE__, foreign_key: :retweet_id
+    has_many :retweet_tweets, __MODULE__, foreign_key: :retweet_id
+
     timestamps()
   end
 
   def new(user, attrs \\ %{}) do
     changeset(%__MODULE__{}, attrs)
     |> put_assoc(:user, user)
+  end
+
+  def retweet(user, tweet, attrs \\ %{}) do
+    %__MODULE__{}
+    |> cast(attrs, [:text])
+    |> put_assoc(:user, user)
+    |> put_assoc(:original_tweet, tweet)
   end
 
   defp changeset(changeset, attrs) do
