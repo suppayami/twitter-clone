@@ -31,9 +31,15 @@ defmodule Kvy.Twitter.TweetRepo do
 
   defp build_list_tweets() do
     from t in Tweet,
+      join: u in assoc(t, :user),
+      preload: [user: u],
       left_join: l in assoc(t, :likes),
       left_join: rt in assoc(t, :retweets),
-      group_by: t.id,
-      select: %{t | like_count: fragment("count(?) as like_count", l), retweet_count: count(rt)}
+      group_by: [t.id, u.id],
+      select: %{
+        t
+        | like_count: fragment("count(?) as like_count", l),
+          retweet_count: count(rt)
+      }
   end
 end

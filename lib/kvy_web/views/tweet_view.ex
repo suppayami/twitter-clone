@@ -15,6 +15,7 @@ defmodule KvyWeb.TweetView do
     %{
       id: tweet.id,
       text: tweet.text,
+      user: render_one(tweet.user, UserView, "user.json"),
       like_count: tweet.like_count,
       retweet_count: tweet.retweet_count
     }

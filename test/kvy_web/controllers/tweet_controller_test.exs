@@ -38,8 +38,8 @@ defmodule KvyWeb.TweetControllerTest do
 
     _expected = %{
       "data" => [
-        %{"id" => tweet.id, "text" => "Test Tweet"},
-        %{"id" => tweet_2.id, "text" => "Test Tweet"}
+        %{"id" => tweet.id, "text" => "Test Tweet", "user" => %{"id" => user.id}},
+        %{"id" => tweet_2.id, "text" => "Test Tweet", "user" => %{"id" => user.id}}
       ]
     }
 
