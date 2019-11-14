@@ -2,7 +2,7 @@ defmodule Kvy.Twitter.TweetTest do
   use Kvy.DataCase
 
   describe "tweets" do
-    alias Kvy.Repo
+    alias Kvy.Twitter
     alias Kvy.Twitter.{Tweet, TweetRepo}
     alias Kvy.Accounts.{UserRepo}
 
@@ -21,8 +21,7 @@ defmodule Kvy.Twitter.TweetTest do
       {:ok, tweet_2} = TweetRepo.create_tweet(user, @valid_attrs)
       {:ok, tweet_3} = TweetRepo.create_tweet(user, @valid_attrs)
 
-      Repo.update(Ecto.Changeset.change(tweet_2, %{like_count: 2}))
-      Repo.update(Ecto.Changeset.change(tweet_3, %{like_count: 1}))
+      {:ok, _like} = Twitter.like(user, tweet_2)
 
       [tweet_1, tweet_2, tweet_3]
     end
@@ -37,11 +36,21 @@ defmodule Kvy.Twitter.TweetTest do
       assert {:error, %Ecto.Changeset{}} = TweetRepo.create_tweet(user, @invalid_attrs)
     end
 
-    test "TweetRepo.list_tweets/1 lists all tweets" do
+    test "TweetRepo.list_tweets/0 lists all tweets" do
       user = user_fixture()
       tweets = tweet_fixtures(user)
 
       assert Enum.count(TweetRepo.list_tweets()) == Enum.count(tweets)
+    end
+
+    test "TweetRepo.list_most_likes_tweets/0 lists all tweets in most liked order" do
+      user = user_fixture()
+      tweets = tweet_fixtures(user)
+
+      list_tweets = TweetRepo.list_most_likes_tweets()
+
+      assert Enum.count(list_tweets) == Enum.count(tweets)
+      assert List.first(list_tweets).id == Enum.at(tweets, 1).id
     end
   end
 end

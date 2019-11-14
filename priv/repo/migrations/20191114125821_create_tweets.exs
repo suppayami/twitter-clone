@@ -18,5 +18,9 @@ defmodule Kvy.Repo.Migrations.CreateTweets do
       add :user_id, references(:users, on_delete: :delete_all), primary_key: true
       add :tweet_id, references(:tweets, on_delete: :delete_all), primary_key: true
     end
+
+    create index(:likes, :tweet_id)
+    create index(:retweets, :tweet_id)
+    create index(:retweets, :user_id)
   end
 end

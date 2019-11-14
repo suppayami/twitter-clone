@@ -14,6 +14,26 @@ defmodule Kvy.Twitter.TweetRepo do
   end
 
   def list_tweets() do
-    Repo.all(Tweet)
+    query =
+      from [t] in build_list_tweets(),
+        order_by: [desc: t.id]
+
+    Repo.all(query)
+  end
+
+  def list_most_likes_tweets() do
+    query =
+      from [t, l, rt] in build_list_tweets(),
+        order_by: [desc: fragment("like_count")]
+
+    Repo.all(query)
+  end
+
+  defp build_list_tweets() do
+    from t in Tweet,
+      left_join: l in assoc(t, :likes),
+      left_join: rt in assoc(t, :retweets),
+      group_by: t.id,
+      select: %{t | like_count: fragment("count(?) as like_count", l), retweet_count: count(rt)}
   end
 end

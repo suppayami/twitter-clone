@@ -3,14 +3,20 @@ defmodule Kvy.Twitter.Tweet do
   import Ecto.Changeset
 
   alias Kvy.Accounts.User
+  alias Kvy.Twitter.Like
+  alias Kvy.Twitter.Retweet
 
   schema "tweets" do
     field :text, :string, default: ""
-    field :like_count, :integer, default: 0
-    field :retweet_count, :integer, default: 0
+
+    # virtual
+    field :like_count, :integer, default: 0, virtual: true
+    field :retweet_count, :integer, default: 0, virtual: true
 
     # relationships
     belongs_to :user, User
+    has_many :likes, Like
+    has_many :retweets, Retweet
 
     timestamps()
   end

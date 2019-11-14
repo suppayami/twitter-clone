@@ -16,7 +16,7 @@ defmodule Kvy.Twitter.RetweetRepo do
   end
 
   def get_retweet(user, tweet) do
-    Like
+    Retweet
     |> where(user_id: ^user.id)
     |> where(tweet_id: ^tweet.id)
     |> Repo.get_one()
