@@ -2,6 +2,7 @@ defmodule Kvy.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Kvy.Twitter.Tweet
   alias Kvy.Utils.PasswordHash
 
   schema "users" do
@@ -11,6 +12,9 @@ defmodule Kvy.Accounts.User do
 
     # virtual
     field :password, :string, virtual: true
+
+    # relationships
+    has_many :tweets, Tweet
 
     timestamps()
   end
