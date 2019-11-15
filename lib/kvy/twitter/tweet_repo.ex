@@ -53,7 +53,7 @@ defmodule Kvy.Twitter.TweetRepo do
       from t in Tweet,
         join: u in assoc(t, :user),
         left_join: ot in assoc(t, :original_tweet),
-        preload: [user: u, original_tweet: ot],
+        preload: [user: u, original_tweet: {ot, [:user]}],
         left_join: l in assoc(t, :likes),
         left_join: rt in assoc(t, :retweets),
         group_by: [t.id, u.id, ot.id],
