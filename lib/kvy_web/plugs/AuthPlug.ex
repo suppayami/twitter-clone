@@ -8,7 +8,7 @@ defmodule KvyWeb.AuthPlug do
     opts
   end
 
-  def call(conn, _opts) do
+  def call(conn, opts) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
          {:ok, claims} <- Jwt.verify_and_validate(token),
          {:ok, id} <- Jwt.get_id_from_claims(claims),
@@ -16,7 +16,13 @@ defmodule KvyWeb.AuthPlug do
       assign(conn, :current_user, user)
     else
       _ ->
-        unauthorized(conn)
+        case opts do
+          :optional ->
+            conn
+
+          _ ->
+            unauthorized(conn)
+        end
     end
   end
 

@@ -12,6 +12,8 @@ defmodule Kvy.Twitter.Tweet do
     # virtual
     field :like_count, :integer, default: 0, virtual: true
     field :retweet_count, :integer, default: 0, virtual: true
+    field :user_like, :boolean, default: false, virtual: true
+    field :user_retweet, :boolean, default: false, virtual: true
 
     # relationships
     belongs_to :user, User

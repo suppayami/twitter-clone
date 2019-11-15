@@ -40,7 +40,7 @@ defmodule Kvy.Twitter.TweetTest do
       user = user_fixture()
       tweets = tweet_fixtures(user)
 
-      assert Enum.count(TweetRepo.list_tweets()) == Enum.count(tweets)
+      assert Enum.count(TweetRepo.list_tweets(user)) == Enum.count(tweets)
     end
 
     test "TweetRepo.list_most_likes_tweets/0 lists all tweets in most liked order" do

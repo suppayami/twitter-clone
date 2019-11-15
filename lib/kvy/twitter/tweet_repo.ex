@@ -3,6 +3,7 @@ defmodule Kvy.Twitter.TweetRepo do
 
   alias Kvy.Repo
   alias Kvy.Twitter.Tweet
+  alias Kvy.Accounts.User
 
   def create_tweet(user, tweet_params) do
     Tweet.new(user, tweet_params)
@@ -31,34 +32,52 @@ defmodule Kvy.Twitter.TweetRepo do
     |> Repo.get_one()
   end
 
-  def list_tweets() do
+  def list_tweets(user \\ nil) do
     query =
-      from [t] in build_list_tweets(),
+      from [t] in build_list_tweets(user),
         order_by: [desc: t.id]
 
     Repo.all(query)
   end
 
-  def list_most_likes_tweets() do
+  def list_most_likes_tweets(user \\ nil) do
     query =
-      from [t, l, rt] in build_list_tweets(),
+      from [t, l, rt] in build_list_tweets(user),
         order_by: [desc: fragment("like_count")]
 
     Repo.all(query)
   end
 
-  defp build_list_tweets() do
-    from t in Tweet,
-      join: u in assoc(t, :user),
-      left_join: ot in assoc(t, :original_tweet),
-      preload: [user: u, original_tweet: ot],
-      left_join: l in assoc(t, :likes),
-      left_join: rt in assoc(t, :retweets),
-      group_by: [t.id, u.id, ot.id],
-      select: %{
-        t
-        | like_count: fragment("count(?) as like_count", l),
-          retweet_count: count(rt)
-      }
+  defp build_list_tweets(user) do
+    query =
+      from t in Tweet,
+        join: u in assoc(t, :user),
+        left_join: ot in assoc(t, :original_tweet),
+        preload: [user: u, original_tweet: ot],
+        left_join: l in assoc(t, :likes),
+        left_join: rt in assoc(t, :retweets),
+        group_by: [t.id, u.id, ot.id],
+        select: %{
+          t
+          | like_count: fragment("count(?) as like_count", l),
+            retweet_count: count(rt)
+        }
+
+    case user do
+      nil ->
+        query
+
+      %User{id: id} ->
+        from t in query,
+          left_join: user_like in assoc(t, :likes),
+          on: user_like.user_id == ^id,
+          left_join: user_retweet in assoc(t, :retweets),
+          on: user_retweet.user_id == ^id,
+          select_merge: %{
+            t
+            | user_like: count(user_like) > 0,
+              user_retweet: count(user_retweet) > 0
+          }
+    end
   end
 end
