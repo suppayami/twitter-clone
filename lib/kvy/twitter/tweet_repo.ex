@@ -68,7 +68,7 @@ defmodule Kvy.Twitter.TweetRepo do
         query
 
       %User{id: id} ->
-        from t in query,
+        from [t, u, ot, l, rt] in query,
           left_join: user_like in assoc(t, :likes),
           on: user_like.user_id == ^id,
           left_join: user_retweet in assoc(t, :retweets),
@@ -76,7 +76,9 @@ defmodule Kvy.Twitter.TweetRepo do
           select_merge: %{
             t
             | user_like: count(user_like) > 0,
-              user_retweet: count(user_retweet) > 0
+              user_retweet: count(user_retweet) > 0,
+              like_count: fragment("count(?) as like_count", l),
+              retweet_count: count(rt)
           }
     end
   end
