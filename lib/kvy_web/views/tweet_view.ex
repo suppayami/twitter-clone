@@ -22,7 +22,9 @@ defmodule KvyWeb.TweetView do
       user: render_one(tweet.user, UserView, "user.json"),
       like_count: tweet.like_count,
       retweet_count: tweet.retweet_count,
-      original_tweet: render_one(tweet.original_tweet, __MODULE__, "tweet.json")
+      original_tweet: render_one(tweet.original_tweet, __MODULE__, "tweet.json"),
+      user_like: tweet.user_like,
+      user_retweet: tweet.user_retweet
     }
   end
 
