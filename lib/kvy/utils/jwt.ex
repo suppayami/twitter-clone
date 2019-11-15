@@ -1,8 +1,8 @@
 defmodule Kvy.Utils.Jwt do
   use Joken.Config
 
-  # 60 minutes
-  @session_exp 60 * 60
+  # 24 hours
+  @session_exp 60 * 60 * 24
   @id_field "id"
 
   def token_config do
