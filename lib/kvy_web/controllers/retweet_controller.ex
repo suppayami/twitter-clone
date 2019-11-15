@@ -7,7 +7,7 @@ defmodule KvyWeb.RetweetController do
 
   plug AuthPlug when action in [:create, :delete]
 
-  def create(conn, %{"like" => %{"tweet_id" => tweet_id}}) do
+  def create(conn, %{"retweet" => %{"tweet_id" => tweet_id}}) do
     current_user = AuthPlug.get_current_user(conn)
 
     with {:ok, tweet} <- TweetRepo.get_tweet(tweet_id),
@@ -18,7 +18,7 @@ defmodule KvyWeb.RetweetController do
     end
   end
 
-  def delete(conn, %{"like" => %{"tweet_id" => tweet_id}}) do
+  def delete(conn, %{"retweet" => %{"tweet_id" => tweet_id}}) do
     current_user = AuthPlug.get_current_user(conn)
 
     with {:ok, tweet} <- TweetRepo.get_tweet(tweet_id),

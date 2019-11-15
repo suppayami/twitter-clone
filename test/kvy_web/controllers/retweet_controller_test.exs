@@ -33,7 +33,7 @@ defmodule KvyWeb.RetweetControllerTest do
 
       conn
       |> put_req_header("authorization", "Bearer #{token}")
-      |> post(Routes.retweet_path(conn, :create), %{like: %{tweet_id: List.first(tweets).id}})
+      |> post(Routes.retweet_path(conn, :create), %{retweet: %{tweet_id: List.first(tweets).id}})
       |> json_response(:created)
     end
 
@@ -44,7 +44,7 @@ defmodule KvyWeb.RetweetControllerTest do
 
       conn
       |> put_req_header("authorization", "Bearer #{token}")
-      |> post(Routes.retweet_path(conn, :create), %{like: %{tweet_id: Enum.at(tweets, 1).id}})
+      |> post(Routes.retweet_path(conn, :create), %{retweet: %{tweet_id: Enum.at(tweets, 1).id}})
       |> json_response(:bad_request)
     end
   end
@@ -57,7 +57,7 @@ defmodule KvyWeb.RetweetControllerTest do
 
       conn
       |> put_req_header("authorization", "Bearer #{token}")
-      |> delete(Routes.retweet_path(conn, :delete), %{like: %{tweet_id: Enum.at(tweets, 1).id}})
+      |> delete(Routes.retweet_path(conn, :delete), %{retweet: %{tweet_id: Enum.at(tweets, 1).id}})
       |> json_response(:ok)
     end
 
@@ -68,7 +68,7 @@ defmodule KvyWeb.RetweetControllerTest do
 
       conn
       |> put_req_header("authorization", "Bearer #{token}")
-      |> delete(Routes.retweet_path(conn, :delete), %{like: %{tweet_id: Enum.at(tweets, 0).id}})
+      |> delete(Routes.retweet_path(conn, :delete), %{retweet: %{tweet_id: Enum.at(tweets, 0).id}})
       |> json_response(:bad_request)
     end
   end
